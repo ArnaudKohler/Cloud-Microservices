@@ -26,10 +26,7 @@ jobs:
 
         - name: Build native image
           run: |
-            chmod 777 ./QuarkusService/gradlew
-            export SHELL=/bin/bash
-            cd QuarkusService
-            ./gradlew clean build -Dquarkus.native.enabled=true
+            ./QuarkusServices/gradlew clean build -Dquarkus.native.enabled=true
 
         - name: Verify native binary
           run: |
