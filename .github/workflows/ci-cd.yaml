@@ -39,4 +39,4 @@ jobs:
                 context: .
                 file: ./CalculatorService/Dockerfile
                 push: true
-                tags: ${{secrets.DOCKER_USERNAME}}/python-microservice:latest
+                tags: ${{secrets.DOCKER_PSEUDO}}/python-microservice:latest
