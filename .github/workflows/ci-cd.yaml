@@ -3,7 +3,7 @@ name: CI/CD project
 on: 
     push:
         tags:
-            - main
+            - "*"
 
 jobs: 
     python_build:
@@ -26,4 +26,4 @@ jobs:
             - name: Run tests
               run: |
                 pytest ./CalculatorService/tests
-                
+
