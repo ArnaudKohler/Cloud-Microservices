@@ -1,0 +1,33 @@
+name: CI/CD Java
+
+on: 
+    push:
+        tags:
+            - "*"
+
+jobs:
+    build-native:
+      name: Build Native Image
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+
+        - name: Set up GraalVM
+          uses: actions/setup-java@v3
+          with:
+            distribution: 'graalvm'
+            java-version: '17'
+
+        - name: Install native-image
+          run: |
+            gu install native-image
+
+        - name: Build native image
+          run: |
+            ./QuarkusService/gradlew clean build -Dquarkus.native.enabled=true
+
+        - name: Verify native binary
+          run: |
+            ls -lh QuartzService/build/*-runner
