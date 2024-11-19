@@ -29,7 +29,7 @@ jobs:
             chmod 777 ./QuarkusServices/gradlew
             export SHELL=/bin/bash
             cd QuarkusServices
-            ./gradlew clean build -Dquarkus.native.enabled=true
+            ./gradlew clean build -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true -Dquarkus.package.jar.enabled=false
 
         - name: Verify native binary
           run: |
