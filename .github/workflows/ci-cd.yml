@@ -80,6 +80,6 @@ jobs:
           uses: docker/build-push-action@v4
           with:
             context: .
-            file: ./LoggerService/src/main/docker/Dockerfile.native
+            file: ./LoggerService/src/main/docker/Dockerfile.native-micro
             push: true
             tags: ${{secrets.DOCKER_PSEUDO}}/logger-microservice:latest
