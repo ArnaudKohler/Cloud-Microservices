@@ -33,4 +33,4 @@ jobs:
 
         - name: Verify native binary
           run: |
-            ls -lh QuartzService/build/*-runner
+            ls -lh QuarkusServices/build/*-runner
