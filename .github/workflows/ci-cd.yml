@@ -108,3 +108,33 @@ jobs:
             tags: ${{ secrets.DOCKER_PSEUDO }}/custom-mariadb:latest
             build-args: |
               MARIADB_ROOT_PASSWORD=${{ secrets.DB_ROOT_PASSWORD }}
+    
+    minikube_deploy:
+      name: Start Minikube and Deploy Services
+      runs-on: ubuntu-latest
+      needs: [python_build, db_build]  #ne pas oublier de rajouter java plus tard
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+
+        - name: Set up Minikube
+          uses: medyagh/setup-minkube@master
+
+        - name: Try the k8s cluster
+          run: kubectl get nodes
+
+        - name: Deploy services to Minikube
+          run: |
+            kubectl config use-context minikube
+
+            kubectl apply-f ./k8s/mariadb/mariadb-secret.yml
+            
+            kubectl apply -f ./k8s/calculator/deployment.yaml
+            kubectl apply -f ./k8s/mariadb/deployment.yaml
+
+        - name: Verify deployment
+          run: |
+
+            kubectl get pods
+            kubectl get svc
