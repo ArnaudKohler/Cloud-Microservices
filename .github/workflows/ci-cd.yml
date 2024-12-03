@@ -130,8 +130,8 @@ jobs:
 
             kubectl apply -f ./k8s/mariadb/mariadb-secret.yml
             
-            kubectl apply -f ./k8s/calculator/deployment.yaml
-            kubectl apply -f ./k8s/mariadb/deployment.yaml
+            kubectl apply -f ./k8s/calculator/deployment.yml
+            kubectl apply -f ./k8s/mariadb/deployment.yml
 
         - name: Verify deployment
           run: |
