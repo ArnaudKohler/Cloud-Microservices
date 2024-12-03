@@ -128,7 +128,7 @@ jobs:
           run: |
             kubectl config use-context minikube
 
-            kubectl apply-f ./k8s/mariadb/mariadb-secret.yml
+            kubectl apply -f ./k8s/mariadb/mariadb-secret.yml
             
             kubectl apply -f ./k8s/calculator/deployment.yaml
             kubectl apply -f ./k8s/mariadb/deployment.yaml
