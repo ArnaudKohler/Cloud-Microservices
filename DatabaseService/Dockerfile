@@ -1,0 +1,9 @@
+FROM mariadb:11.6.2
+
+COPY init.sql /docker-entrypoint-initdb.d/
+
+ARG MARIADB_ROOT_PASSWORD
+
+ENV MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+
+EXPOSE 3306

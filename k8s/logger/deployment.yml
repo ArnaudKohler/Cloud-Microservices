@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logger-deployment
+  labels:
+    app: logger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logger
+  template:
+    metadata:
+      labels:
+        app: logger
+    spec:
+      containers:
+      - name: logger-container
+        image: tonelomb/logger-microservice:latest
+        ports:
+        - containerPort: 8086
+      - env: 
+          - name: QUARKUS_DATASOURCE_DB_KIND
+            value: mariadb
+
+          - name: QUARKUS_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: root-username
+
+          - name: QUARKUS_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: root-password
+            
+          - name: QUARKUS_DATASOURCE_REACTIVE_URL
+            value: mariadb://localhost:3306/log

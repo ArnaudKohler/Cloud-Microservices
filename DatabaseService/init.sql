@@ -1,0 +1,5 @@
+CREATE DATABASE IF NOT EXISTS Logs;
+CREATE TABLE LogTable(time VARCHAR(50), calculus VARCHAR(50));
+ 
+
+
