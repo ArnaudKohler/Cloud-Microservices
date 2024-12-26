@@ -130,6 +130,8 @@ jobs:
               cd istio-*
               export PATH=$PWD/bin:$PATH
               istioctl version
+              kubectl get crds | grep istio
+
 
         - name: Deploy services to Minikube
           run: |
