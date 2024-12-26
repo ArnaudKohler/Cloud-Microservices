@@ -132,7 +132,6 @@ jobs:
               istioctl version
               kubectl get crds | grep istio
 
-
         - name: Deploy services to Minikube
           run: |
             kubectl config use-context minikube
