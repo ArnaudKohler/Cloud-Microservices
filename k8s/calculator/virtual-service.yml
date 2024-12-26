@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: calculator
+spec:
+  hosts:
+  - "calculator.local"
+  gateways:
+  - calculator-gateway
+  http:
+  - route:
+    - destination:
+        host: calculator-service
+        port:
+          number: 8085

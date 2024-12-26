@@ -124,6 +124,13 @@ jobs:
         - name: Try the k8s cluster
           run: kubectl get nodes
 
+        - name: Install istio CLI for gateway
+          run: |
+            curl -L https://istio.io/downloadIstio | sh -
+              cd istio-*
+              export PATH=$PWD/bin:$PATH
+              istioctl version
+
         - name: Deploy services to Minikube
           run: |
             kubectl config use-context minikube
@@ -131,10 +138,17 @@ jobs:
             kubectl apply -f ./k8s/mariadb/mariadb-secret.yml
             
             kubectl apply -f ./k8s/calculator/deployment.yml
+            kubcetl apply -f ./k8s/calculator/gateway.yml
+            kubectl apply -f ./k8s/calculator/virtual-service.yml
+
             kubectl apply -f ./k8s/mariadb/deployment.yml
+            kubcetl apply -f ./k8s/mariad/gateway.yml
+            kubectl apply -f ./k8s/mariad/virtual-service.yml
 
         - name: Verify deployment
           run: |
 
             kubectl get pods
             kubectl get svc
+            kubectl get gateways
+            kubectl get virtualservices
