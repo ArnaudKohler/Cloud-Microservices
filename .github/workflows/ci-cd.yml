@@ -136,19 +136,26 @@ jobs:
             kubectl config use-context minikube
 
             kubectl apply -f ./k8s/mariadb/mariadb-secret.yml
-            
+      
             kubectl apply -f ./k8s/calculator/deployment.yml
-            kubcetl apply -f ./k8s/calculator/gateway.yml
-            kubectl apply -f ./k8s/calculator/virtual-service.yml
-
             kubectl apply -f ./k8s/mariadb/deployment.yml
-            kubcetl apply -f ./k8s/mariad/gateway.yml
-            kubectl apply -f ./k8s/mariad/virtual-service.yml
 
         - name: Verify deployment
           run: |
 
             kubectl get pods
             kubectl get svc
+        - name: Deploy gateway and virtual service
+          run: |
+
+            kubectl apply -f ./k8s/calculator/gateway.yml
+            kubectl apply -f ./k8s/calculator/virtual-service.yml
+
+            kubectl apply -f ./k8s/mariadb/gateway.yml
+            kubectl apply -f ./k8s/mariadb/virtual-service.yml
+
+        - name: Verify gateway and virtual service
+          run: |
+
             kubectl get gateways
             kubectl get virtualservices
