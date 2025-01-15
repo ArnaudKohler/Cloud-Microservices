@@ -142,6 +142,8 @@ jobs:
             kubectl apply -f ./k8s/calculator/deployment.yml
             kubectl apply -f ./k8s/mariadb/deployment.yml
 
+            minikube tunnel -p minikube &
+
         - name: Wait for pods to be ready
           run: |
               kubectl wait --for=condition=Ready pod -l app=calculator --timeout=600s
