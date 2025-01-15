@@ -129,9 +129,8 @@ jobs:
             curl -L https://istio.io/downloadIstio | sh -
               cd istio-*
               export PATH=$PWD/bin:$PATH
-              istioctl version
               istioctl install --set profile=demo -y
-              istioctl version -i istio-platform
+              istioctl version
               kubectl get crds | grep istio
 
         - name: Deploy services to Minikube
@@ -162,3 +161,7 @@ jobs:
 
             kubectl get gateways
             kubectl get virtualservices
+
+        - name: test API
+          run: |
+            curl -v "http://calculator.local/add?val1=10&val2=20"
