@@ -130,6 +130,7 @@ jobs:
               cd istio-*
               export PATH=$PWD/bin:$PATH
               istioctl version
+              istioctl install --set profile=demo -y
               istioctl version -i istio-platform
               kubectl get crds | grep istio
 
