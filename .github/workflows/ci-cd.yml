@@ -142,7 +142,6 @@ jobs:
             kubectl apply -f ./k8s/calculator/deployment.yml
             kubectl apply -f ./k8s/mariadb/deployment.yml
 
-            minikube tunnel -p minikube &
 
         - name: Wait for pods to be ready
           run: |
@@ -153,12 +152,12 @@ jobs:
           run: |
 
             kubectl get pods
-            kubectl get svc -n istio-system
 
         - name: Expose services
           run: |
               kubectl apply -f ./k8s/calculator/service.yml
               kubectl apply -f ./k8s/mariadb/service.yml
+              
 
         - name: Verify services
           run: |
@@ -179,6 +178,10 @@ jobs:
 
             kubectl get gateways
             kubectl get virtualservices
+            
+            kubectl get svc -n istio-system
+            minikube tunnel -p minikube &
+
 
         - name: test API
           run: |
