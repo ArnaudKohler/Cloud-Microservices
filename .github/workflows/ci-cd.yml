@@ -185,4 +185,5 @@ jobs:
 
         - name: test API
           run: |
+            ping -c 5 $(minikube ip)
             curl -v "http://$(minikube ip)/add?val1=10&val2=20"
