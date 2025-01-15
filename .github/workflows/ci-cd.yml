@@ -133,7 +133,7 @@ jobs:
               istioctl version
               kubectl get crds | grep istio
 
-        - name: Deploy services to Minikube
+        - name: Deploy deployment to Minikube
           run: |
             kubectl config use-context minikube
 
@@ -152,6 +152,17 @@ jobs:
 
             kubectl get pods
             kubectl get svc -n istio-system
+
+        - name: Expose services
+          run: |
+              kubectl apply -f ./k8s/calculator/service.yml
+              kubectl apply -f ./k8s/mariadb/service.yml
+
+        - name: Verify services
+          run: |
+
+            kubectl get services
+
         - name: Deploy gateway and virtual service
           run: |
 
