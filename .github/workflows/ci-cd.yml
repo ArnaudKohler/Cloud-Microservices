@@ -151,7 +151,7 @@ jobs:
           run: |
 
             kubectl get pods
-            kubectl get svc
+            kubectl get svc -n istio-system
         - name: Deploy gateway and virtual service
           run: |
 
