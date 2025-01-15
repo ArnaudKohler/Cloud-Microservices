@@ -12,4 +12,4 @@ spec:
     - destination:
         host: logger-service
         port:
-          number: 8085
+          number: 8086
