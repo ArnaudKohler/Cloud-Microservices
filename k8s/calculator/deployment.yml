@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: calculator-container
-        image: tonelomb/calculator-microservice:latest
+        image: tonelomb/calculator-service:latest
         ports:
         - containerPort: 8085

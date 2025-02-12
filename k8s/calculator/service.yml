@@ -9,6 +9,7 @@ spec:
     app: calculator
   ports:
   - protocol: TCP
-    port: 8085 
+    port: 80 
     targetPort: 8085 # Port du conteneur
-  type: ClusterIP # Peut être NodePort ou LoadBalancer selon les besoins
+    name: http
+  type: NodePort # Peut être NodePort ou LoadBalancer selon les besoin
