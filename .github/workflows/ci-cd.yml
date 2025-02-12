@@ -183,6 +183,19 @@ jobs:
 
             kubectl get svc -n istio-system
 
-        - name: test API
-          run: |
-            curl -v "http://127.0.0.1/calculator/add?val1=10&val2=20"
+            - name: Get Istio External IP
+            run: |
+              for i in {1..10}; do
+                INGRESS_IP=$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+                if [ -n "$INGRESS_IP" ]; then
+                  echo "Ingress IP found: $INGRESS_IP"
+                  echo "INGRESS_IP=$INGRESS_IP" >> $GITHUB_ENV
+                  exit 0
+                fi
+                echo "Waiting for Ingress IP..."
+                sleep 10
+              done
+              echo "Failed to obtain Ingress IP" && exit 1
+          
+            - name: Test API with curl
+            run: curl -v "http://${{ env.INGRESS_IP }}/calculator/add?val1=10&val2=20"
