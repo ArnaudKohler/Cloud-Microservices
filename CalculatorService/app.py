@@ -1,18 +1,21 @@
 from flask import Flask, request, jsonify
 import requests
+import logging
 
 app = Flask(__name__)
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 def log_result(result):
-    logger_url = "http://logger-service.default.svc.cluster.local:8086/log"    
+    logger_url = "http://logger-service.default.svc.cluster.local:8086/log"
     data = {"result": result}
     try:
         response = requests.post(logger_url, json=data)
         if response.status_code != 200:
-            print(f"Failed to log result: {response.status_code}, {response.text}")
+            logger.error(f"Failed to log result: {response.status_code}, {response.text}")
     except requests.exceptions.RequestException as e:
-        print(f"Request failed: {e}")
-
+        logger.exception("Request failed")
 
 def validate_values(request):
     try:
@@ -20,15 +23,16 @@ def validate_values(request):
         val2 = float(request.args.get("val2"))
         return val1, val2
     except (ValueError, TypeError):
+        logger.error("Invalid input values")
         return None
 
 def calculate(operation):
     values = validate_values(request)
     if values is None:
         return jsonify({"error": "Both values must be numbers"}), 400
-    
+
     val1, val2 = values
-    
+
     if operation == "add":
         result = val1 + val2
         operation = "+"
@@ -45,7 +49,7 @@ def calculate(operation):
         operation = "/"
     else:
         return jsonify({"error": "Invalid operation"}), 400
-    
+
     result_str = "{:.2f} {} {:.2f} = {:.2f}".format(val1, operation, val2, result)
     log_result(result_str)
     return jsonify({"result": result_str}), 200
