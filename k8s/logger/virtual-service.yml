@@ -1,15 +1,18 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: logger
+  name: logger-service
 spec:
   hosts:
-  - "logger.local"
+  - "*"
   gateways:
   - logger-gateway
   http:
-  - route:
+  - match:
+    - uri:
+        prefix: /log
+    route:
     - destination:
         host: logger-service
         port:
-          number: 8086
+          number: 8085

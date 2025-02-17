@@ -1,6 +1,18 @@
 from flask import Flask, request, jsonify
+import request
 
 app = Flask(__name__)
+
+def log_result(result):
+    logger_url = "http://logger-service.default.svc.cluster.local:8085/log"    
+    data = {"result": result}
+    try:
+        response = requests.post(logger_url, json=data)
+        if response.status_code != 200:
+            print(f"Failed to log result: {response.status_code}, {response.text}")
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
+
 
 def validate_values(request):
     try:

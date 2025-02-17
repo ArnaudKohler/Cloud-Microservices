@@ -112,8 +112,7 @@ jobs:
     minikube_deploy:
       name: Start Minikube and Deploy Services
       runs-on: ubuntu-latest
-      needs: [python_build, db_build]  #ne pas oublier de rajouter java plus tard
-
+      needs: [python_build, db_build, java_build] 
       steps:
         - name: Checkout repository
           uses: actions/checkout@v3
@@ -135,6 +134,9 @@ jobs:
               istioctl version
               kubectl get crds | grep istio
 
+              kubectl label namespace default istio-injection=enabled
+
+
         - name: Deploy deployment to Minikube
           run: |
             kubectl config use-context minikube
@@ -143,13 +145,14 @@ jobs:
       
             kubectl apply -f ./k8s/calculator/deployment.yml
             kubectl apply -f ./k8s/mariadb/deployment.yml
+            kubectl apply -f ./k8s/logger/deployment.yml
 
 
         - name: Wait for pods to be ready
           run: |
               kubectl wait --for=condition=Ready pod -l app=calculator --timeout=600s
               kubectl wait --for=condition=Ready pod -l app=mariadb --timeout=600s
-          
+              kubectl wait --for=condition=Ready pod -l app=logger --timeout=600s
         - name: Verify deployment
           run: |
 
@@ -159,6 +162,7 @@ jobs:
           run: |
               kubectl apply -f ./k8s/calculator/service.yml
               kubectl apply -f ./k8s/mariadb/service.yml
+              kubectl apply -f ./k8s/logger/service.yml
               
 
         - name: Verify services
@@ -171,6 +175,9 @@ jobs:
 
             kubectl apply -f ./k8s/calculator/gateway.yml
             kubectl apply -f ./k8s/calculator/virtual-service.yml
+
+            kubectl apply -f ./k8s/logger/gateway.yml
+            kubectl apply -f ./k8s/logger/virtual-service.yml
 
         - name: Verify gateway and virtual service
           run: |
@@ -196,3 +203,10 @@ jobs:
           
         - name: Test API with curl
           run: curl -v "http://${{ env.INGRESS_IP }}/calculator/add?val1=10&val2=20"
+
+        - name: Verify database entry
+        run: |
+            MARIADB_POD=$(kubectl get pods -l app=mariadb -o jsonpath='{.items[0].metadata.name}')
+            kubectl exec -it $MARIADB_POD -- mysql -u ${{ secrets.MARIADB_USER }} -p${{ secrets.MARIADB_PASSWORD }} -D Logs -e "SELECT * FROM LogTable WHERE calculus LIKE '%10 + 20%';"
+
+        
