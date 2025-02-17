@@ -11,6 +11,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.time.LocalDateTime;
 
 import org.acme.database.MariaDBService;
+import org.slf4j.Logger;
 
 import io.smallrye.mutiny.Uni;
 
@@ -19,6 +20,7 @@ import io.smallrye.mutiny.Uni;
 public class LogService {
 
     private static final String RESULT_KEY = "result";
+    private static final Logger logger = org.slf4j.LoggerFactory.getLogger(LogService.class);
 
     @Inject
     MariaDBService mariaDBService;
@@ -27,6 +29,7 @@ public class LogService {
     @Produces(MediaType.TEXT_PLAIN)
     public Uni<String> log(JsonObject body) {
         String currentTime = LocalDateTime.now().toString();
+        logger.info("Logging: " + body);
         try {
             String bodyString = body.getString(RESULT_KEY);
             String log = currentTime + " - " + bodyString;
@@ -42,7 +45,7 @@ public class LogService {
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/get")
     public Uni<String> get() {
-
+        logger.info("Getting log");
         return mariaDBService.getLog();
     }
 }
