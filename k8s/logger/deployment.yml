@@ -19,21 +19,18 @@ spec:
         image: tonelomb/logger-microservice:latest
         ports:
         - containerPort: 8086
-      - env: 
+        env:
           - name: QUARKUS_DATASOURCE_DB_KIND
             value: mariadb
-
           - name: QUARKUS_DATASOURCE_USERNAME
             valueFrom:
-            secretKeyRef:
-              name: mariadb-secret
-              key: MARIA_DB_USER
-
+              secretKeyRef:
+                name: mariadb-secret
+                key: MARIA_DB_USER
           - name: QUARKUS_DATASOURCE_PASSWORD
             valueFrom:
-            secretKeyRef:
-              name: mariadb-secret
-              key: MARIA_DB_PASSWORD
-            
+              secretKeyRef:
+                name: mariadb-secret
+                key: MARIA_DB_PASSWORD
           - name: QUARKUS_DATASOURCE_REACTIVE_URL
             value: mariadb://localhost:3306/log
