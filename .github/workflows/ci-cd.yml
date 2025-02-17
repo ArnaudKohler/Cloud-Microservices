@@ -206,7 +206,6 @@ jobs:
 
         - name: Verify database entry
           run: |
-            MARIADB_POD=$(kubectl get pods -l app=mariadb -o jsonpath='{.items[0].metadata.name}')
-            kubectl exec -it $MARIADB_POD -- mysql -u ${{ secrets.MARIADB_USER }} -p${{ secrets.MARIADB_PASSWORD }} -D Logs -e "SELECT * FROM LogTable WHERE calculus LIKE '%10 + 20%';"
-
+            curl -v "http://${{ env.INGRESS_IP }}/log/log/get"
+            curl -v "http://${{ env.INGRESS_IP }}/log/get"
         
