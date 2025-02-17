@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mariadb
-  labels:
-    app: mariadb
+  name: mariadb-deployment
 spec:
   replicas: 1
   selector:
@@ -24,4 +22,19 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mariadb-secret
-              key: root-password
+              key: MARIADB_ROOT_PASSWORD
+        - name: MARIADB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: MARIADB_USER
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: MARIADB_PASSWORD
+        - name: MARIADB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: MARIADB_DATABASE

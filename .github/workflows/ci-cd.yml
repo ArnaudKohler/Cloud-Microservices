@@ -172,9 +172,6 @@ jobs:
             kubectl apply -f ./k8s/calculator/gateway.yml
             kubectl apply -f ./k8s/calculator/virtual-service.yml
 
-            kubectl apply -f ./k8s/mariadb/gateway.yml
-            kubectl apply -f ./k8s/mariadb/virtual-service.yml
-
         - name: Verify gateway and virtual service
           run: |
 
