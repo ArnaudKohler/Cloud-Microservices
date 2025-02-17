@@ -8,10 +8,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def log_result(result):
-    logger_url = "http://logger-service.default.svc.cluster.local:8086/log"
+    logger_url = "http://logger-service:8086/log"
     data = {"result": result}
     try:
         response = requests.post(logger_url, json=data)
+        logger.info(f"Logged result: {response.status_code}")
         if response.status_code != 200:
             logger.error(f"Failed to log result: {response.status_code}, {response.text}")
     except requests.exceptions.RequestException as e:

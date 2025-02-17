@@ -204,13 +204,12 @@ jobs:
         - name: Test API with curl
           run: curl -v "http://${{ env.INGRESS_IP }}/calculator/add?val1=10&val2=20"
 
-        - name: Check pod
-          run: | 
-             kubectl logs $(kubectl get pods -l app=calculator -o jsonpath='{.items[0].metadata.name}')
-             kubectl logs $(kubectl get pods -l app=logger -o jsonpath='{.items[0].metadata.name}')
-
         - name: Verify database entry
           run: |
             curl -v "http://${{ env.INGRESS_IP }}/log/log/get"
             curl -v "http://${{ env.INGRESS_IP }}/log/get"
         
+        - name: Check pod
+          run: | 
+               kubectl logs $(kubectl get pods -l app=calculator -o jsonpath='{.items[0].metadata.name}')
+               kubectl logs $(kubectl get pods -l app=logger -o jsonpath='{.items[0].metadata.name}')
