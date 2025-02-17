@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 def log_result(result):
-    logger_url = "http://logger-service.default.svc.cluster.local:8085/log"    
+    logger_url = "http://logger-service.default.svc.cluster.local:8086/log"    
     data = {"result": result}
     try:
         response = requests.post(logger_url, json=data)

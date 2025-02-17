@@ -26,11 +26,11 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: mariadb-secret
-                key: MARIA_DB_USER
+                key: MARIADB_USER
           - name: QUARKUS_DATASOURCE_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: mariadb-secret
-                key: MARIA_DB_PASSWORD
+                key: MARIADB_PASSWORD
           - name: QUARKUS_DATASOURCE_REACTIVE_URL
-            value: mariadb://localhost:3306/log
+            value: mariadb://mariadb-service:3306/Logs
