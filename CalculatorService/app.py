@@ -47,6 +47,7 @@ def calculate(operation):
         return jsonify({"error": "Invalid operation"}), 400
     
     result_str = "{:.2f} {} {:.2f} = {:.2f}".format(val1, operation, val2, result)
+    log_result(result_str)
     return jsonify({"result": result_str}), 200
 
 @app.route("/add", methods=["GET"])
