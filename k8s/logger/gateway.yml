@@ -3,7 +3,6 @@ kind: Gateway
 metadata:
   name: logger-gateway
   namespace: default
-
 spec:
   selector:
     istio: ingressgateway
@@ -13,4 +12,4 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "l*"
+    - "*"
