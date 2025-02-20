@@ -17,6 +17,7 @@ spec:
       containers:
       - name: logger-container
         image: tonelomb/logger-microservice:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8086
         env:
