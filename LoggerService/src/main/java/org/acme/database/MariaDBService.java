@@ -23,6 +23,29 @@ public class MariaDBService {
     @Inject
     MySQLPool client;
 
+    @ConfigProperty(name = "quarkus.datasource.db-kind")
+    String dbKind;
+
+    @ConfigProperty(name = "quarkus.datasource.username")
+    String username;
+
+    @ConfigProperty(name = "quarkus.datasource.password")
+    String password;
+
+    @ConfigProperty(name = "quarkus.datasource.reactive.url")
+    String reactiveUrl;
+
+    @PostConstruct
+    public void init() {
+        logger.info("MariaDBService initialized");
+        logger.info("DB Kind: " + dbKind);
+        logger.info("Username: " + username);
+        logger.info("Password: " + password);
+        logger.info("Reactive URL: " + reactiveUrl);
+    }
+
+
+
     public void inserIntoDB(String body, String currentTime) {
         String query = "INSERT INTO LogTable (time,calculus) VALUES ('" + currentTime + "', '" + body + "')";
         client.query(query).execute().subscribe().with(
