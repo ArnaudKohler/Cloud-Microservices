@@ -9,11 +9,14 @@ app = Flask(__name__)
 # Connexion à MariaDB avec hôte dynamique via une variable d'environnement
 def get_db_connection():
     db_host = os.getenv('DB_HOST', 'localhost')  # Récupère l'hôte de la DB, 'localhost' par défaut
+    db_user = os.getenv('DB_USER', 'admin')      # Récupère l'utilisateur de la DB, 'admin' par défaut
+    db_password = os.getenv('DB_PASSWORD', 'password')  # Récupère le mot de passe de la DB, 'password' par défaut
+    db = os.getenv('DB', 'Logs')                 # Récupère le nom de la DB, 'Logs' par défaut
     connection = mysql.connector.connect(
         host=db_host,        # Utilise l'hôte récupéré à partir de l'environnement
-        user="admin",         # Remplace par ton utilisateur MariaDB
-        password="password", # Remplace par ton mot de passe MariaDB
-        database="Logs"  # Nom de la base de données
+        user=db_user,         # Remplace par ton utilisateur MariaDB
+        password=db_password, # Remplace par ton mot de passe MariaDB
+        database=db  # Nom de la base de données
     )
     return connection
 
