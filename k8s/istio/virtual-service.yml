@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: calculator-and-logger-routing
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - shared-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/calculator"
+    route:
+    - destination:
+        host: calculator-service
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: "/log"
+    route:
+    - destination:
+        host: logger-service
+        port:
+          number: 80
