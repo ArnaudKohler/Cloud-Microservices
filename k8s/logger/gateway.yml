@@ -2,7 +2,6 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: logger-gateway
-  namespace: default
 spec:
   selector:
     istio: ingressgateway
