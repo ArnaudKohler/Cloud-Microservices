@@ -11,9 +11,9 @@ def get_db_connection():
     db_host = os.getenv('DB_HOST', 'localhost')  # Récupère l'hôte de la DB, 'localhost' par défaut
     connection = mysql.connector.connect(
         host=db_host,        # Utilise l'hôte récupéré à partir de l'environnement
-        user="root",         # Remplace par ton utilisateur MariaDB
+        user="admin",         # Remplace par ton utilisateur MariaDB
         password="password", # Remplace par ton mot de passe MariaDB
-        database="log_service"  # Nom de la base de données
+        database="Logs"  # Nom de la base de données
     )
     return connection
 
