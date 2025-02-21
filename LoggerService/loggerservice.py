@@ -18,7 +18,7 @@ def get_db_connection():
     return connection
 
 # Route GET pour récupérer tous les logs
-@app.route('/logs', methods=['GET'])
+@app.route('/data', methods=['GET'])
 def get_logs():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -29,7 +29,7 @@ def get_logs():
     return jsonify(logs), 200
 
 # Route POST pour ajouter un log
-@app.route('/log', methods=['POST'])
+@app.route('/update', methods=['POST'])
 def add_log():
     try:
         # Récupérer les données envoyées dans le body
