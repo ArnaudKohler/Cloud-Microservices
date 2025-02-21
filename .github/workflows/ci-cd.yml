@@ -70,7 +70,7 @@ jobs:
                 context: .
                 file: ./LoggerService/Dockerfile
                 push: true
-                tags: ${{secrets.DOCKER_PSEUDO}}/calculator-microservice:latest
+                tags: ${{secrets.DOCKER_PSEUDO}}/logger-microservice:latest
     
 
     db_build:
