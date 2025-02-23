@@ -10,11 +10,10 @@ def log_result(result):
     data = {"result": result}
     try:
         response = requests.post(logger_url, json=data)
-        logger.info(f"Logged result: {response.status_code}")
         if response.status_code != 200:
-            logger.error(f"Failed to log result: {response.status_code}, {response.text}")
+            app.logger.error("Failed to log result, status code: %d", response.status_code)
     except requests.exceptions.RequestException as e:
-        logger.exception("Request failed")
+        app.logger.error("Error while logging result: %s", e)
 
 def validate_values(request):
     try:
@@ -22,7 +21,7 @@ def validate_values(request):
         val2 = float(request.args.get("val2"))
         return val1, val2
     except (ValueError, TypeError):
-        logger.error("Invalid input values")
+        app.logger.error("Invalid input values")
         return None
 
 def calculate(operation):
@@ -49,7 +48,7 @@ def calculate(operation):
     else:
         return jsonify({"error": "Invalid operation"}), 400
 
-    logger.info("Calculation successful")
+    app.logger.info("Calculation successful")
     result_str = "{:.2f} {} {:.2f} = {:.2f}".format(val1, operation, val2, result)
     log_result(result_str)
     return jsonify({"result": result_str}), 200
