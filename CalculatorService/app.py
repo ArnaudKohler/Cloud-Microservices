@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def log_result(result):
-    logger_url = "http://localhost/log/update"
+    logger_url = "http://logger-service/update"
     data = {"result": result}
     try:
         response = requests.post(logger_url, json=data)
