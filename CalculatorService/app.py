@@ -4,8 +4,6 @@ import logging
 
 app = Flask(__name__)
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-logger = logging.getLogger(__name__)
 
 def log_result(result):
     logger_url = "http://logger-service/update"
@@ -74,4 +72,5 @@ def divide():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8085, debug=True)
-    logger.info("Calculator service started")
+    app.logger.setLevel(logging.INFO)
+    app.logger.info("Calculator service started")
