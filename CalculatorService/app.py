@@ -1,30 +1,26 @@
 from flask import Flask, request, jsonify
 import requests
 import logging
-import sys
 
 app = Flask(__name__)
 
-# 🔥 Configuration du logger pour voir les logs dans Minikube
 logging.basicConfig(
-    level=logging.INFO,  # Niveau d'affichage
+    level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler(sys.stdout)],  # Envoi les logs vers la sortie standard (stdout)
+    handlers=[logging.StreamHandler(sys.stdout)]  # ✅ Rediriger les logs vers stdout
 )
-
-logger = logging.getLogger(__name__)  # Récupérer un logger
+logger = logging.getLogger(__name__)
 
 def log_result(result):
     logger_url = "http://logger-service/update"
     data = {"result": result}
     try:
-        response = requests.post(logger_url, json=data, timeout=5)
+        response = requests.post(logger_url, json=data)
+        logger.info(f"Logged result: {response.status_code}")
         if response.status_code != 200:
-            logger.error(f"❌ Erreur lors de l'envoi du log: {response.status_code}, {response.text}")
-        else:
-            logger.info(f"✅ Log envoyé : {data}")
+            logger.error(f"Failed to log result: {response.status_code}, {response.text}")
     except requests.exceptions.RequestException as e:
-        logger.exception("❌ Impossible de se connecter au logger-service")
+        logger.exception("Request failed")
 
 def validate_values(request):
     try:
@@ -32,7 +28,7 @@ def validate_values(request):
         val2 = float(request.args.get("val2"))
         return val1, val2
     except (ValueError, TypeError):
-        logger.error("❌ Valeurs invalides reçues")
+        logger.error("Invalid input values")
         return None
 
 def calculate(operation):
@@ -44,32 +40,28 @@ def calculate(operation):
 
     if operation == "add":
         result = val1 + val2
-        symbol = "+"
+        operation = "+"
     elif operation == "subtract":
         result = val1 - val2
-        symbol = "-"
+        operation = "-"
     elif operation == "multiply":
         result = val1 * val2
-        symbol = "*"
+        operation = "*"
     elif operation == "divide":
         if val2 == 0:
-            logger.warning("❌ Division par zéro tentée")
             return jsonify({"error": "Cannot divide by 0!"}), 400
         result = val1 / val2
-        symbol = "/"
+        operation = "/"
     else:
         return jsonify({"error": "Invalid operation"}), 400
-
-    result_str = "{:.2f} {} {:.2f} = {:.2f}".format(val1, symbol, val2, result)
     
-    # Log et envoyer le résultat au logger-service
-    logger.info(f"📝 Calcul effectué : {result_str}")
+    result_str = "{:.2f} {} {:.2f} = {:.2f}".format(val1, operation, val2, result)
     log_result(result_str)
-
     return jsonify({"result": result_str}), 200
 
 @app.route("/add", methods=["GET"])
 def add():
+    app.logger.info("Should log something")
     return calculate("add")
 
 @app.route("/subtract", methods=["GET"])
@@ -85,5 +77,4 @@ def divide():
     return calculate("divide")
 
 if __name__ == '__main__':
-    logger.info("🚀 Démarrage du service Flask...")
-    app.run(host="0.0.0.0", port=8085, debug=True, use_reloader=False)  # Désactiver le reloader Flask
+    app.run(host="0.0.0.0", port=8085, debug=True)
