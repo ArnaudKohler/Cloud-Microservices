@@ -10,6 +10,7 @@ logging.basicConfig(
     handlers=[logging.StreamHandler(sys.stdout)]  # ✅ Rediriger les logs vers stdout
 )
 logger = logging.getLogger(__name__)
+app.logger.setLevel(logging.INFO) 
 
 def log_result(result):
     logger_url = "http://logger-service/update"
@@ -32,6 +33,7 @@ def validate_values(request):
         return None
 
 def calculate(operation):
+    logger.info(f"Received request for {operation} with args: {request.args}")
     values = validate_values(request)
     if values is None:
         return jsonify({"error": "Both values must be numbers"}), 400
