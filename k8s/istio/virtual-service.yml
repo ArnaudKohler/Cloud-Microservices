@@ -11,6 +11,8 @@ spec:
   - match:
     - uri:
         prefix: "/calculator"
+    rewrite:
+        uri: /  
     route:
     - destination:
         host: calculator-service
@@ -19,6 +21,8 @@ spec:
   - match:
     - uri:
         prefix: "/log"
+    rewrite:
+        uri: / 
     route:
     - destination:
         host: logger-service
