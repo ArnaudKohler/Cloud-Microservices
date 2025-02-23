@@ -51,6 +51,7 @@ def calculate(operation):
     else:
         return jsonify({"error": "Invalid operation"}), 400
 
+    logger.info("Calculation successful")
     result_str = "{:.2f} {} {:.2f} = {:.2f}".format(val1, operation, val2, result)
     log_result(result_str)
     return jsonify({"result": result_str}), 200
@@ -73,3 +74,4 @@ def divide():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8085, debug=True)
+    logger.info("Calculator service started")
