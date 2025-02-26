@@ -10,11 +10,11 @@ def log_result(result):
     data = {"result": result}
     try:
         response = requests.post(logger_url, json=data)
-        logging.info(f"Logged result: {response.status_code}")
+        logging.error(f"Logged result: {response.status_code}")
         if response.status_code != 200:
-            logging.info(f"Failed to log result: {response.status_code}, {response.text}")
+            logging.error(f"Failed to log result: {response.status_code}, {response.text}")
     except requests.exceptions.RequestException as e:
-        logging.info("Request failed")
+        logging.error("Request failed")
 
 def validate_values(request):
     try:
@@ -71,4 +71,6 @@ def divide():
     return calculate("divide")
 
 if __name__ == '__main__':
+    logging.info("Starting Calculator Service")
+    logging.error("Starting Calculator Service error")
     app.run(host="0.0.0.0", port=8085, debug=True)
