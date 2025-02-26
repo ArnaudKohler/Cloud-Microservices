@@ -5,24 +5,16 @@ import sys
 
 app = Flask(__name__)
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler(sys.stdout)]  # ✅ Rediriger les logs vers stdout
-)
-logger = logging.getLogger(__name__)
-app.logger.setLevel(logging.INFO) 
-
 def log_result(result):
     logger_url = "http://logger-service/update"
     data = {"result": result}
     try:
         response = requests.post(logger_url, json=data)
-        logger.info(f"Logged result: {response.status_code}")
+        logging.info(f"Logged result: {response.status_code}")
         if response.status_code != 200:
-            logger.error(f"Failed to log result: {response.status_code}, {response.text}")
+            logging.info(f"Failed to log result: {response.status_code}, {response.text}")
     except requests.exceptions.RequestException as e:
-        logger.exception("Request failed")
+        logging.info("Request failed")
 
 def validate_values(request):
     try:
@@ -30,11 +22,11 @@ def validate_values(request):
         val2 = float(request.args.get("val2"))
         return val1, val2
     except (ValueError, TypeError):
-        logger.error("Invalid input values")
+        logging.error("Invalid input values")
         return None
 
 def calculate(operation):
-    logger.info(f"Received request for {operation} with args: {request.args}")
+    logging.error(f"Received request for {operation} with args: {request.args}")
     values = validate_values(request)
     if values is None:
         return jsonify({"error": "Both values must be numbers"}), 400
