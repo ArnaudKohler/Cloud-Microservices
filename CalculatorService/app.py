@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import requests
 import logging
+import sys
 
 app = Flask(__name__)
 
@@ -63,7 +64,6 @@ def calculate(operation):
 
 @app.route("/add", methods=["GET"])
 def add():
-    app.logger.info("Should log something")
     return calculate("add")
 
 @app.route("/subtract", methods=["GET"])
