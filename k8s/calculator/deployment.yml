@@ -16,6 +16,10 @@ spec:
     spec:
       containers:
       - name: calculator-container
-        image: tonelomb/calculator-service:latest
+        image: tonelomb/calculator-microservice:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8085
+        env:
+        - name: FLASK_ENV
+          value: "production"

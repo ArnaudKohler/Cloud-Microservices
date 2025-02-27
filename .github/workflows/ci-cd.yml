@@ -195,9 +195,7 @@ jobs:
 
         - name: Verify database entry
           run: |
-            curl -v "http://${{ env.INGRESS_IP }}/log/log/get"
-            curl -v "http://${{ env.INGRESS_IP }}/log/get"
-        
+            curl -v "http://${{ env.INGRESS_IP }}/log/data"
         - name: Check pod
           run: | 
                kubectl logs $(kubectl get pods -l app=calculator -o jsonpath='{.items[0].metadata.name}')
