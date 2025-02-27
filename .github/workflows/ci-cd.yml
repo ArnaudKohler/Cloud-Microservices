@@ -162,11 +162,8 @@ jobs:
         - name: Deploy gateway and virtual service
           run: |
 
-            kubectl apply -f ./k8s/calculator/gateway.yml
-            kubectl apply -f ./k8s/calculator/virtual-service.yml
-
-            kubectl apply -f ./k8s/logger/gateway.yml
-            kubectl apply -f ./k8s/logger/virtual-service.yml
+            kubectl apply -f ./k8s/istio/gateway.yml
+            kubectl apply -f ./k8s/istio/virtual-service.yml
 
         - name: Verify gateway and virtual service
           run: |
