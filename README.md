@@ -14,8 +14,7 @@ Ce projet est une architecture de microservices déployée sur Minikube avec Ist
    - [DB Service](#db-service)
 4. [Déploiement](#déploiement)
 5. [Utilisation](#utilisation)
-6. [Pipeline CI/CD](#pipeline-cicd)
-7. [Contribution](#contribution)
+6. [GoogleLabs](#googlelabs)
 
 ## Introduction
 
@@ -58,5 +57,13 @@ Une fois les services déployés, vous pouvez utiliser l'API en envoyant des req
 
 - Pour additionner deux valeurs : `GET http://<minikube-ip>/calculator/add?val1=10&val2=20`
 - Pour récupérer les résultats stockés : `GET http://<minikube-ip>/log/data`
+
+## GoogleLabs
+
+Vous trouverez ci dessous des captures d'écran attestant de notre formation google GoogleLabs
+
+![lucas_lab](lucas_lab.png)
+![arnaud_lab](arnaud_lab.png)
+
 
 
